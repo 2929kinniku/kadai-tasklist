@@ -12,14 +12,17 @@ class TasksController < ApplicationController
   end
 
   def create
-    @task = Task.new(task_params)
-
+    # @task = Task.new(task_params)
+    @task = current_user.tasks.build(task_params)
     if @task.save
       flash[:success] = 'Task が正常に登録されました'
-      redirect_to @task
+      # redirect_to @task
+      redirect_to root_url
     else
+      @tasks = current_user.tasks.order('created_at DESC').page(params[:page])
       flash.now[:danger] = 'Task が登録されませんでした'
-      render :new
+      # render :new
+      render 'toppages/index'
     end
   end
 
@@ -32,7 +35,8 @@ class TasksController < ApplicationController
 
     if @task.update(task_params)
       flash[:success] = 'Task は正常に更新されました'
-      redirect_to @task
+      # redirect_to @task
+      redirect_to root_url
     else
       flash.now[:danger] = 'Task は更新されませんでした'
       render :edit
@@ -44,7 +48,8 @@ class TasksController < ApplicationController
     @task.destroy
 
     flash[:success] = 'Task は正常に削除されました'
-    redirect_to tasks_url
+    # redirect_to tasks_url
+    redirect_to root_url
   end
 
   private
