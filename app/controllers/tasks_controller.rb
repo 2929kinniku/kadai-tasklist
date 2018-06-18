@@ -2,7 +2,8 @@ class TasksController < ApplicationController
   before_action :require_user_logged_in
   #before_action :correct_user, only: [:index, :show, :new, :create, :destroy, :edit]
   #before_action :correct_user, only: [:index, :destroy, :edit]
-  before_action :correct_user, only: [:index, :show, :new]
+  before_action :correct_user, only: [:index, :show, :new, :edit, :update, :destroy]
+  #before_action :correct_user, only: [:index, :show, :new]
   
   def index
     @tasks = Task.all.page(params[:page])
